@@ -1,4 +1,4 @@
-package com.mum.bigdata.util;
+package com.mum.bigdata.mapreduce.pair;
 
 import java.io.DataInput;
 import java.io.DataOutput;

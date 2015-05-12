@@ -1,9 +1,7 @@
-package com.mum.bigdata.mapreduce;
+package com.mum.bigdata.mapreduce.pair;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.mapreduce.Partitioner;
-
-import com.mum.bigdata.util.Pair;
 
 public class PairsPartitioner extends Partitioner<Pair, IntWritable> {
 

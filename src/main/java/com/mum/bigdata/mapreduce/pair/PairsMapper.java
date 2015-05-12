@@ -1,4 +1,4 @@
-package com.mum.bigdata.mapreduce;
+package com.mum.bigdata.mapreduce.pair;
 
 import java.io.IOException;
 
@@ -6,7 +6,7 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-import com.mum.bigdata.util.Pair;
+import com.mum.bigdata.mapreduce.pair.Pair;
 
 public class PairsMapper extends Mapper<Object, Text, Pair, IntWritable> {
 	private Pair pair;
@@ -20,7 +20,7 @@ public class PairsMapper extends Mapper<Object, Text, Pair, IntWritable> {
 	@Override
 	public void map(Object key, Text value, Context context)
 			throws IOException, InterruptedException {
-		String[] data = value.toString().trim().split(" ");
+		String[] data = value.toString().split("\\s+");
 
 		if (data.length > 0) {
 			for (int i = 0; i < data.length; i++) {
