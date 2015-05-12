@@ -16,11 +16,11 @@ public class Pair implements WritableComparable<Pair> {
 		this.second = new Text();
 	}
 
-	public void set(String first, String second){
+	public void set(String first, String second) {
 		this.first.set(first);
 		this.second.set(second);
 	}
-	
+
 	public Text getFirst() {
 		return first;
 	}

@@ -8,7 +8,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 import com.mum.bigdata.util.Pair;
 
-public class PairsMapper extends Mapper<IntWritable, Text, Pair, IntWritable> {
+public class PairsMapper extends Mapper<Object, Text, Pair, IntWritable> {
 	private Pair pair;
 	private IntWritable one;
 
@@ -18,7 +18,7 @@ public class PairsMapper extends Mapper<IntWritable, Text, Pair, IntWritable> {
 	}
 
 	@Override
-	public void map(IntWritable key, Text value, Context context)
+	public void map(Object key, Text value, Context context)
 			throws IOException, InterruptedException {
 		String[] data = value.toString().trim().split(" ");
 
