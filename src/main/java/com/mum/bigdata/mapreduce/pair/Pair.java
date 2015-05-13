@@ -70,7 +70,7 @@ public class Pair implements WritableComparable<Pair> {
 
 	@Override
 	public String toString() {
-		return "Pair(" + first + ", " + second + ")";
+		return "Pair(" + first + "," + second + ")";
 	}
 
 	@Override
