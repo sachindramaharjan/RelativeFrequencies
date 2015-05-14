@@ -13,19 +13,25 @@ public class PairsReducer extends
 
 	IntWritable total = new IntWritable(0);
 	DoubleWritable frequency = new DoubleWritable();
-	private Text asterisk = new Text("*");
+	private Text symbol = new Text("*");
+	private Text initval = new Text("");
 
 	@Override
 	public void reduce(Pair key, Iterable<IntWritable> values, Context context)
 			throws IOException, InterruptedException {
 
-		if (key.getSecond().equals(asterisk)) {
-			total.set(total.get() + getSum(values));
+		if (key.getSecond().equals(symbol)) {
+			if (key.getFirst().equals(initval)) {
+				total.set(total.get() + getSum(values));
+			} else {
+				initval.set(key.getFirst());
+				total.set(getSum(values));
+			}
 		} else {
 			int cnt = getSum(values);
 			double freq = Utility.formatNumber((double) cnt / total.get());
 			frequency.set(freq);
-			context.write(key, frequency);
+			context.write(key, new DoubleWritable(freq));
 		}
 	}
 
@@ -34,7 +40,6 @@ public class PairsReducer extends
 		for (IntWritable val : values) {
 			sum += val.get();
 		}
-
 		return sum;
 	}
 }

@@ -17,6 +17,18 @@ public class HybridMapper extends Mapper<Object, Text, HybridPair, IntWritable> 
 		pair = new HybridPair();
 		hashmap = new HashMap<>();
 	}
+	
+//	@Override
+//	protected void setup(
+//			Mapper<Object, Text, HybridPair, IntWritable>.Context context)
+//			throws IOException, InterruptedException {
+//		// TODO Auto-generated method stub
+//		super.setup(context);
+//		
+//		pair = new HybridPair();
+//		hashmap = new HashMap<>();
+//	}
+	
 
 	@Override
 	protected void map(Object key, Text value, Context context)

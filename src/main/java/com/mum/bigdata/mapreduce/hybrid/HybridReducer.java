@@ -14,7 +14,12 @@ public class HybridReducer extends
 	private Stripe stripe;
 	private String previouskey = null;
 
-	public HybridReducer() {
+	@Override
+	protected void setup(
+			Reducer<HybridPair, IntWritable, Text, Stripe>.Context context)
+			throws IOException, InterruptedException {
+		// TODO Auto-generated method stub
+		super.setup(context);
 		stripe = new Stripe();
 	}
 
@@ -25,7 +30,7 @@ public class HybridReducer extends
 
 		if (!key.equals(previouskey) && previouskey != null) {
 			stripe.setFrequency();
-			context.write(new Text(key), stripe);
+			context.write(new Text(previouskey), stripe);
 			stripe.clear();
 		}
 
@@ -44,9 +49,12 @@ public class HybridReducer extends
 	@Override
 	protected void cleanup(Context context) throws IOException,
 			InterruptedException {
-		stripe.setFrequency();
-		context.write(new Text(previouskey), stripe);
 		super.cleanup(context);
+
+		if (stripe != null && previouskey != null) {
+			stripe.setFrequency();
+			context.write(new Text(previouskey), stripe);
+		}
 	}
 
 }

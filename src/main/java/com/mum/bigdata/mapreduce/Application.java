@@ -10,20 +10,22 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import com.mum.bigdata.mapreduce.hybrid.HybridMapper;
 import com.mum.bigdata.mapreduce.hybrid.HybridPair;
+import com.mum.bigdata.mapreduce.hybrid.HybridPairsPartitioner;
 import com.mum.bigdata.mapreduce.hybrid.HybridReducer;
 import com.mum.bigdata.mapreduce.pair.Pair;
-import com.mum.bigdata.mapreduce.pair.PairsMapper;
+import com.mum.bigdata.mapreduce.pair.PairsMapperWithCombiner;
 import com.mum.bigdata.mapreduce.pair.PairsPartitioner;
 import com.mum.bigdata.mapreduce.pair.PairsReducer;
 import com.mum.bigdata.mapreduce.stripes.Stripe;
 import com.mum.bigdata.mapreduce.stripes.StripeMapper;
+import com.mum.bigdata.mapreduce.stripes.StripePartitioner;
 import com.mum.bigdata.mapreduce.stripes.StripeReducer;
 
 public class Application {
 
-	 public static void main(String[] args) throws Exception {
-		if (args.length != 3) {
-			System.out.println("usage: [method] [input] [output]");
+	public static void main(String[] args) throws Exception {
+		if (args.length != 4) {
+			System.out.println("usage: [method] [input] [output] [reducers]");
 			System.exit(-1);
 		}
 
@@ -31,12 +33,12 @@ public class Application {
 		job.setJarByClass(Application.class);
 		FileInputFormat.setInputPaths(job, new Path(args[1]));
 		FileOutputFormat.setOutputPath(job, new Path(args[2]));
+		job.setNumReduceTasks(Integer.parseInt(args[3]));
 
 		switch (args[0].toLowerCase()) {
 		case "pair":
-			job.setNumReduceTasks(2);
 
-			job.setMapperClass(PairsMapper.class);
+			job.setMapperClass(PairsMapperWithCombiner.class);
 			job.setPartitionerClass(PairsPartitioner.class);
 			job.setReducerClass(PairsReducer.class);
 
@@ -50,6 +52,7 @@ public class Application {
 
 		case "stripe":
 			job.setMapperClass(StripeMapper.class);
+			job.setPartitionerClass(StripePartitioner.class);
 			job.setReducerClass(StripeReducer.class);
 
 			job.setMapOutputKeyClass(Text.class);
@@ -63,6 +66,7 @@ public class Application {
 		case "hybrid":
 
 			job.setMapperClass(HybridMapper.class);
+			job.setPartitionerClass(HybridPairsPartitioner.class);
 			job.setReducerClass(HybridReducer.class);
 
 			job.setMapOutputKeyClass(HybridPair.class);

@@ -21,6 +21,16 @@ public class Pair implements WritableComparable<Pair> {
 		this.second.set(second);
 	}
 
+	public void set(String str) {
+		String[] s = str.split(",");
+		this.first.set(s[0]);
+		this.second.set(s[1]);
+	}
+
+	public String getKey() {
+		return first + "," + second;
+	}
+
 	public Text getFirst() {
 		return first;
 	}

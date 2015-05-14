@@ -37,7 +37,6 @@ public class Stripe extends MapWritable {
 	}
 
 	public void setFrequency() {
-
 		int sum = 0;
 		for (Writable key : keySet()) {
 			sum += ((IntWritable) get(key)).get();
@@ -53,12 +52,13 @@ public class Stripe extends MapWritable {
 	}
 
 	public void increment(String key, int value) {
-		if (this.containsKey(key)) {
-			this.put(
-					new Text(key),
-					new IntWritable(((IntWritable) this.get(key)).get() + value));
+		Text Key = new Text(key);
+
+		if (this.containsKey(Key)) {
+			this.put(Key, new IntWritable(((IntWritable) this.get(Key)).get()
+					+ value));
 		} else {
-			this.put(new Text(key), new IntWritable(value));
+			this.put(Key, new IntWritable(value));
 		}
 	}
 

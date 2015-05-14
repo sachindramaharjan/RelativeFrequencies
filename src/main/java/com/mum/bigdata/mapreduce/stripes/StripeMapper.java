@@ -26,7 +26,7 @@ public class StripeMapper extends Mapper<LongWritable, Text, Text, Stripe> {
 			for (int j = i + 1; j < numbers.length; j++) {
 				if (num.equals(numbers[j]))
 					break;
-				if (stripe.containsKey(numbers[j])) {
+				if (stripe.containsKey(new Text(numbers[j]))) {
 					stripe.increment(numbers[j], 1);
 				} else {
 					stripe.put(new Text(numbers[j]), new IntWritable(1));

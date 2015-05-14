@@ -21,7 +21,7 @@ public class PairsMapper extends Mapper<Object, Text, Pair, IntWritable> {
 	public void map(Object key, Text value, Context context)
 			throws IOException, InterruptedException {
 		String[] data = value.toString().split("\\s+");
-
+			
 		if (data.length > 0) {
 			for (int i = 0; i < data.length; i++) {
 				String term = data[i];
