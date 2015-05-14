@@ -73,11 +73,6 @@ public class Pair implements WritableComparable<Pair> {
 		return this.second.compareTo(other.getSecond());
 	}
 
-	public int baseCompareTo(Pair other) {
-		int cmp = first.compareTo(other.getFirst());
-		return cmp;
-	}
-
 	@Override
 	public String toString() {
 		return "Pair(" + first + "," + second + ")";
@@ -85,22 +80,15 @@ public class Pair implements WritableComparable<Pair> {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		Pair pair = (Pair) o;
-		if (second != null ? !second.equals(pair.second) : pair.second != null)
-			return false;
-		if (first != null ? !first.equals(pair.first) : pair.first != null)
-			return false;
+		if (o instanceof Pair) {
+			Pair pair = (Pair) o;
+			return (first.equals(pair.first) && second.equals(pair.second));
+		}
 		return true;
 	}
 
 	@Override
 	public int hashCode() {
-		int result = first != null ? first.hashCode() : 0;
-		result = 163 * result + (second != null ? second.hashCode() : 0);
-		return result;
+		return first.hashCode() * 163 + second.hashCode();
 	}
 }

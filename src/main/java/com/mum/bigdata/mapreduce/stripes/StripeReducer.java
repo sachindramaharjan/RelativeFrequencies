@@ -16,15 +16,9 @@ public class StripeReducer extends Reducer<Text, Stripe, Text, Stripe> {
 		Stripe map = new Stripe();
 
 		while (iter.hasNext())
-			map.sum(iter.next());
+			map.plus(iter.next());
 
-		map.setFrequency();
+		map.calculateFrequency();
 		output.write(key, map);
-	}
-
-	@Override
-	protected void cleanup(Context context) throws IOException,
-			InterruptedException {
-		super.cleanup(context);
 	}
 }

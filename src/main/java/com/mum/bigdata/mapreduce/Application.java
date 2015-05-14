@@ -9,8 +9,6 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import com.mum.bigdata.mapreduce.hybrid.HybridMapper;
-import com.mum.bigdata.mapreduce.hybrid.HybridPair;
-import com.mum.bigdata.mapreduce.hybrid.HybridPairsPartitioner;
 import com.mum.bigdata.mapreduce.hybrid.HybridReducer;
 import com.mum.bigdata.mapreduce.pair.Pair;
 import com.mum.bigdata.mapreduce.pair.PairsMapperWithCombiner;
@@ -66,14 +64,14 @@ public class Application {
 		case "hybrid":
 
 			job.setMapperClass(HybridMapper.class);
-			job.setPartitionerClass(HybridPairsPartitioner.class);
+			job.setPartitionerClass(PairsPartitioner.class);
 			job.setReducerClass(HybridReducer.class);
 
-			job.setMapOutputKeyClass(HybridPair.class);
+			job.setMapOutputKeyClass(Pair.class);
 			job.setMapOutputValueClass(IntWritable.class);
 
-			job.setOutputKeyClass(HybridPair.class);
-			job.setOutputValueClass(IntWritable.class);
+			job.setOutputKeyClass(Text.class);
+			job.setOutputValueClass(Stripe.class);
 
 			break;
 

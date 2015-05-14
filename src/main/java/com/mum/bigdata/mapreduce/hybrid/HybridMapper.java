@@ -7,28 +7,22 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class HybridMapper extends Mapper<Object, Text, HybridPair, IntWritable> {
+import com.mum.bigdata.mapreduce.pair.Pair;
+
+public class HybridMapper extends Mapper<Object, Text, Pair, IntWritable> {
 
 	private String term, neighbour;
-	private HybridPair pair;
+	private Pair pair;
 	private HashMap<String, Integer> hashmap;
 
-	public HybridMapper() {
-		pair = new HybridPair();
+	@Override
+	protected void setup(Mapper<Object, Text, Pair, IntWritable>.Context context)
+			throws IOException, InterruptedException {
+		// TODO Auto-generated method stub
+		super.setup(context);
+		pair = new Pair();
 		hashmap = new HashMap<>();
 	}
-	
-//	@Override
-//	protected void setup(
-//			Mapper<Object, Text, HybridPair, IntWritable>.Context context)
-//			throws IOException, InterruptedException {
-//		// TODO Auto-generated method stub
-//		super.setup(context);
-//		
-//		pair = new HybridPair();
-//		hashmap = new HashMap<>();
-//	}
-	
 
 	@Override
 	protected void map(Object key, Text value, Context context)
@@ -60,7 +54,7 @@ public class HybridMapper extends Mapper<Object, Text, HybridPair, IntWritable> 
 	@Override
 	protected void cleanup(Context context) throws IOException,
 			InterruptedException {
-		HybridPair pair = new HybridPair();
+		Pair pair = new Pair();
 		for (String key : hashmap.keySet()) {
 			pair.set(key);
 			context.write(pair, new IntWritable(hashmap.get(key)));

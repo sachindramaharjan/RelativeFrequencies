@@ -24,7 +24,7 @@ public class Stripe extends MapWritable {
 		return m;
 	}
 
-	public void sum(Stripe m) {
+	public void plus(Stripe m) {
 		for (Writable key : m.keySet()) {
 			if (this.containsKey(key)) {
 				this.put(key,
@@ -36,7 +36,7 @@ public class Stripe extends MapWritable {
 		}
 	}
 
-	public void setFrequency() {
+	public void calculateFrequency() {
 		int sum = 0;
 		for (Writable key : keySet()) {
 			sum += ((IntWritable) get(key)).get();

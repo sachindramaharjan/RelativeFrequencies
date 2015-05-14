@@ -6,17 +6,18 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
+import com.mum.bigdata.mapreduce.pair.Pair;
 import com.mum.bigdata.mapreduce.stripes.Stripe;
 
 public class HybridReducer extends
-		Reducer<HybridPair, IntWritable, Text, Stripe> {
+		Reducer<Pair, IntWritable, Text, Stripe> {
 
 	private Stripe stripe;
 	private String previouskey = null;
 
 	@Override
 	protected void setup(
-			Reducer<HybridPair, IntWritable, Text, Stripe>.Context context)
+			Reducer<Pair, IntWritable, Text, Stripe>.Context context)
 			throws IOException, InterruptedException {
 		// TODO Auto-generated method stub
 		super.setup(context);
@@ -24,12 +25,12 @@ public class HybridReducer extends
 	}
 
 	@Override
-	protected void reduce(HybridPair pair, Iterable<IntWritable> values,
+	protected void reduce(Pair pair, Iterable<IntWritable> values,
 			Context context) throws IOException, InterruptedException {
 		String key = pair.getFirst().toString();
 
 		if (!key.equals(previouskey) && previouskey != null) {
-			stripe.setFrequency();
+			stripe.calculateFrequency();
 			context.write(new Text(previouskey), stripe);
 			stripe.clear();
 		}
@@ -52,7 +53,7 @@ public class HybridReducer extends
 		super.cleanup(context);
 
 		if (stripe != null && previouskey != null) {
-			stripe.setFrequency();
+			stripe.calculateFrequency();
 			context.write(new Text(previouskey), stripe);
 		}
 	}
